@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PenthuAura Health Monitor</title>
+    <!-- Link to the external stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Theme Switcher -->
+        <div class="theme-switcher" id="theme-switcher" title="Toggle Theme">
+            <div class="icon icon-sun">☀️</div>
+            <div class="icon icon-moon">🌙</div>
+        </div>
+
+        <header>
+            <h1>PenthuAura</h1>
+            <p class="subtitle">Your Personal Health Guardian, Inspired by Ancient Wisdom</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="config">Configuration</button>
+            <button class="tab-btn" data-tab="history">History</button>
+            <button class="tab-btn" data-tab="about">About</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="status-grid">
+                <div class="status-card vitals">
+                    <h3>Current Vitals</h3>
+                    <div class="vital-item"><span class="vital-label">SpO2</span><span id="spo2-value" class="vital-value">--</span></div>
+                    <div class="vital-item"><span class="vital-label">Heart Rate</span><span id="hr-value" class="vital-value">--</span></div>
+                    <div class="vital-item"><span class="vital-label">Temperature</span><span id="temp-value" class="vital-value">--</span></div>
+                    <div class="vital-item"><span class="vital-label">Blood Pressure</span><span id="bp-value" class="vital-value">--</span></div>
+                </div>
+
+                <div class="status-card system">
+                    <h3>Device & Health Status</h3>
+                    <div class="status-item"><span class="status-label">WiFi</span><span id="wifi-status" class="status-value">--</span></div>
+                    <div class="status-item"><span class="status-label">Health State</span><span id="health-state-value" class="status-value">--</span></div>
+                    <div class="status-item"><span class="status-label">Stress Level</span><span id="stress-value" class="status-value">--</span></div>
+                    <div class="status-item"><span class="status-label">Anomaly Status</span><span id="anomaly-status-value" class="status-value">--</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuration Tab -->
+        <div id="config" class="tab-content">
+            <div class="config-section">
+                <h3>WiFi Configuration</h3>
+                <div class="form-group">
+                    <label for="wifi-ssid">WiFi SSID:</label>
+                    <input type="text" id="wifi-ssid" placeholder="Enter WiFi network name">
+                </div>
+                <div class="form-group">
+                    <label for="wifi-password">WiFi Password:</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="wifi-password" placeholder="Enter WiFi password">
+                        <span class="password-toggle" id="password-toggle">👁️</span>
+                    </div>
+                </div>
+                <button id="scan-wifi-btn" class="btn secondary">Scan Networks</button>
+                <div id="wifi-networks" class="wifi-list"></div>
+            </div>
+            <div class="config-section">
+                <h3>Cycle Configuration</h3>
+                <div class="form-group">
+                    <label for="cycle-interval">Cycle Interval (minutes):</label>
+                    <input type="number" id="cycle-interval" min="1" max="1440" value="10">
+                </div>
+            </div>
+            <button id="save-config-btn" class="btn primary">Save Configuration</button>
+            <button id="reboot-btn" class="btn secondary">Exit Setup & Reboot</button>
+            <div id="config-status" class="status-message"></div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content">
+            <div class="history-section">
+                <h3>Measurement History</h3>
+                <div id="history-container"><p>Loading history...</p></div>
+                <p class="history-scroll-hint">Scroll right to see more data.</p>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about" class="tab-content">
+            <div class="about-section">
+                <h3>About PenthuAura</h3>
+                <h4>The Vision</h4>
+                <p>PenthuAura is a bridge between ancient wisdom and modern technology. Inspired by Penthu, the revered chief physician of Pharoah Akhenaten, this device embodies a dedication to healing and well-being. The name "PenthuAura" represents the protective and caring influence (the "aura") this device provides, ensuring the wearer is always under the watchful eye of a modern-day Penthu.</p>
+                
+                <h4>Project Workflow</h4>
+                <div class="workflow-step">
+                    <strong>Phase 1: Data Collection (The ESP32 Device)</strong>
+                    <p>The wearable device continuously gathers raw sensor data, including PPG waveforms (for SpO2 and HR) and temperature readings. It then securely transmits this data in chunks to our central processing server.</p>
+                </div>
+                <div class="workflow-step">
+                    <strong>Phase 2: Analysis & Prediction (The Raspberry Pi Server)</strong>
+                    <p>Our powerful server, powered by a Raspberry Pi, receives the raw data. It applies advanced signal processing and runs our custom-trained AI models to calculate vitals and predict health metrics like Blood Pressure, Stress Levels, and the overall Health State (Normal, Moderate, or Critical).</p>
+                </div>
+                <div class="workflow-step">
+                    <strong>Phase 3: Visualization & Cloud (ThingSpeak & Web UI)</strong>
+                    <p>The RPi uploads all final results to the ThingSpeak cloud. The ESP32 device then fetches this processed data, displaying it for the user on the built-in LCD screen and this interactive web dashboard.</p>
+                </div>
+
+                <h4>Our Team</h4>
+                <p>This device is the culmination of a final graduation project by a dedicated team from the Canadian International College (CIC), School of Engineering, Department of Communication and Electronics. As the cohort of 2020, we proudly present this project in 2025.</p>
+                <ul class="team-list">
+                    <li>Diaa Ahmed</li>
+                    <li>Abdulrahman Nageh</li>
+                    <li>Mohanad Tarek</li>
+                    <li>Yehia Mohammed</li>
+                </ul>
+                <p class="supervisor">Under the supervision of Dr. Omar Sabry</p>
+                
+                <p class="footer-text">PenthuAura © 2025</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Tab Switching Logic ---
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // --- Theme Switcher Logic ---
+            const themeSwitcher = document.getElementById('theme-switcher');
+            const docElement = document.documentElement;
+            themeSwitcher.addEventListener('click', () => {
+                docElement.classList.toggle('dark-theme');
+                docElement.classList.toggle('light-theme');
+            });
+
+            // --- Password Visibility Toggle ---
+            const passwordInput = document.getElementById('wifi-password');
+            const passwordToggle = document.getElementById('password-toggle');
+            passwordToggle.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                passwordToggle.textContent = type === 'password' ? '👁️' : '🙈';
+            });
+            
+            // --- Event Listeners for Buttons ---
+            document.getElementById('scan-wifi-btn').addEventListener('click', () => {
+                const btn = document.getElementById('scan-wifi-btn');
+                btn.textContent = 'Scanning...';
+                btn.disabled = true;
+                fetch('/scanwifi')
+                    .then(response => response.json())
+                    .then(networks => {
+                        const container = document.getElementById('wifi-networks');
+                        if (networks.length === 0) { container.innerHTML = '<p>No networks found.</p>'; return; }
+                        let html = '<h4>Available Networks:</h4><ul class="network-list">';
+                        networks.forEach(network => {
+                            html += `<li class="network-item" data-ssid="${network.ssid}"><span class="network-name">${network.ssid}</span><span class="network-signal">${network.rssi} dBm</span></li>`;
+                        });
+                        html += '</ul>';
+                        container.innerHTML = html;
+                        document.querySelectorAll('.network-item').forEach(item => {
+                            item.addEventListener('click', () => { document.getElementById('wifi-ssid').value = item.dataset.ssid; });
+                        });
+                    })
+                    .catch(error => { console.error('Error scanning WiFi:', error); document.getElementById('wifi-networks').innerHTML = '<p>Error scanning networks.</p>'; })
+                    .finally(() => { btn.textContent = 'Scan Networks'; btn.disabled = false; });
+            });
+
+            document.getElementById('save-config-btn').addEventListener('click', () => {
+                const formData = new FormData();
+                formData.append('ssid', document.getElementById('wifi-ssid').value);
+                formData.append('password', document.getElementById('wifi-password').value);
+                formData.append('cycle_interval', document.getElementById('cycle-interval').value);
+                const btn = document.getElementById('save-config-btn');
+                btn.textContent = 'Saving...';
+                btn.disabled = true;
+                fetch('/saveconfig', { method: 'POST', body: formData })
+                    .then(response => response.text())
+                    .then(result => {
+                        document.getElementById('config-status').textContent = result;
+                    })
+                    .catch(error => {
+                        document.getElementById('config-status').textContent = 'Error saving configuration.';
+                    })
+                    .finally(() => {
+                        btn.textContent = 'Save Configuration';
+                        btn.disabled = false;
+                    });
+            });
+            
+            document.getElementById('reboot-btn').addEventListener('click', () => {
+                if (confirm("This will reboot the device and exit AP Setup mode. Continue?")) {
+                    fetch('/reboot')
+                        .then(response => { document.getElementById('config-status').textContent = 'Device is rebooting...'; })
+                        .catch(error => { console.error('Error sending reboot command:', error); });
+                }
+            });
+            
+            // --- Data Fetching Functions ---
+            function fetchRealtimeData() {
+                fetch('/data/realtime').then(r => r.json()).then(data => {
+                    document.getElementById('spo2-value').textContent = data.spo2 > 0 ? data.spo2.toFixed(1) + '%' : '--';
+                    document.getElementById('hr-value').textContent = data.hr > 0 ? data.hr + ' bpm' : '--';
+                    document.getElementById('temp-value').textContent = data.temp > 0 ? data.temp.toFixed(1) + '°C' : '--';
+                    document.getElementById('bp-value').textContent = (data.sbp > 0 && data.dbp > 0) ? `${Math.round(data.sbp)}/${Math.round(data.dbp)} mmHg` : '--';
+                    document.getElementById('wifi-status').textContent = data.wifiStatus || 'N/A';
+                    document.getElementById('health-state-value').textContent = data.healthState || '--';
+                    document.getElementById('stress-value').textContent = data.stress || '--';
+                    document.getElementById('anomaly-status-value').textContent = data.anomaly || '--';
+                }).catch(e => console.error('Error fetching realtime data:', e));
+            }
+
+            function fetchHistoryData() {
+                fetch('/data/history').then(r => r.json()).then(data => {
+                    const container = document.getElementById('history-container');
+                    if (!data || data.length === 0) {
+                        container.innerHTML = '<p>No measurement history available.</p>';
+                        return;
+                    }
+                    let html = '<table class="history-table"><thead><tr><th>Time</th><th>SpO2</th><th>HR</th><th>Temp</th><th>BP (Sys/Dia)</th><th>Stress</th><th>Health State</th><th>Anomaly</th></tr></thead><tbody>';
+                    data.forEach(entry => {
+                        const date = new Date(entry.timestamp * 1000);
+                        const bp_display = (entry.sbp > 0 && entry.dbp > 0) ? `${Math.round(entry.sbp)}/${Math.round(entry.dbp)}` : '--';
+                        html += `<tr>
+                            <td>${date.toLocaleString()}</td>
+                            <td>${entry.spo2 > 0 ? entry.spo2.toFixed(1) + '%' : '--'}</td>
+                            <td>${entry.hr > 0 ? entry.hr + ' bpm' : '--'}</td>
+                            <td>${entry.temp > 0 ? entry.temp.toFixed(1) + '°C' : '--'}</td>
+                            <td>${bp_display}</td>
+                            <td>${entry.stress || '--'}</td>
+                            <td>${entry.state || '--'}</td>
+                            <td>${entry.anomaly || '--'}</td>
+                        </tr>`;
+                    });
+                    html += '</tbody></table>';
+                    container.innerHTML = html;
+                }).catch(e => {
+                    console.error('Error fetching history data:', e);
+                    document.getElementById('history-container').innerHTML = '<p>Error loading history data.</p>';
+                });
+            }
+
+            function fetchDeviceInfo() {
+                fetch('/api/device-info').then(r => r.json()).then(data => {
+                    document.getElementById('firmware-version').textContent = data.firmwareVersion || 'N/A';
+                    document.getElementById('device-ip').textContent = data.deviceIP || 'N/A';
+                    document.getElementById('boot-count').textContent = data.bootCount || 'N/A';
+                }).catch(e => console.error('Error fetching device info:', e));
+            }
+            
+            // --- Initialization ---
+            fetchRealtimeData();
+            fetchHistoryData();
+            fetchDeviceInfo();
+            setInterval(fetchRealtimeData, 3000);
+            setInterval(fetchHistoryData, 15000);
+        });
+    </script>
+</body>
+</html>
